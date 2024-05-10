@@ -43,8 +43,8 @@ const CreateBlogPost = () => {
         return;
       }
 
-      if (image.size > 500000) {
-        alert("The image is too large, please choose a smaller image");
+      if (image.size > 1024 * 1024) {
+        alert("Image size is too large");
         return;
       }
 
@@ -99,7 +99,7 @@ const CreateBlogPost = () => {
           setImage={setImage}
           onSubmit={createNewPost}
         />
-        <div className="d-grid gap-2">
+        <div className="d-grid gap-2 submit-blogpost-btn">
           <button type="submit" className="btn btn-primary btn-create">
             Create post
           </button>

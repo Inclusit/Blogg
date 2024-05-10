@@ -69,6 +69,20 @@ export async function getUser(req, res) {
   }
 }
 
+export async function getUserByUsername(req, res) {
+  try {
+    const user = await User.findOne({ userName: req.params.userName }).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  }
+  catch (err) {
+    console.error("Get user by username error:", err);
+    res.status(500).json({ message: "Failed to get user" });
+  }
+}
+
 export async function updateUser(req, res) {
   console.log("Update User Request Body:", req.body);
   console.log("Update User Params:", req.params);

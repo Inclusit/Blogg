@@ -87,7 +87,9 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
           placeholder={"Place your comment here..."}
           style={{ height: "100px", width: "100%" }}
         ></textarea>
-        <button type="submit">Submit</button>
+        <div className="submit-comment-btn">
+          <button type="submit">Submit</button>
+        </div>
       </form>
 
       {console.log("Comments:", comments)}
@@ -107,8 +109,9 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
                   Comment by {comment.user?.userName}
                 </span>
               </p>
-              {(currentUser.admin || currentUser._id === comment.user._id || currentUser._id === AuthorId
-              ) && (
+              {(currentUser.admin ||
+                currentUser._id === comment.user._id ||
+                currentUser._id === AuthorId) && (
                 <div className="button-container">
                   <button
                     className="delete-comment-btn"

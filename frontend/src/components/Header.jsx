@@ -5,13 +5,7 @@ import { useAuth } from "./AuthProvider";
 const Header = () => {
   const { isLoggedIn, logout, currentUser } = useAuth();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!currentUser) {
-      setLoading(true);
-    }
-  }, [currentUser]);
 
   const handleLogout = () => {
     logout();
@@ -19,20 +13,20 @@ const Header = () => {
     navigate("/");
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <>
       <header>
-        <Link to="/" className="logo">
-          MyBlog
+        <div className="user-info">
           {isLoggedIn && currentUser ? (
             <p>Welcome, {currentUser.userName}</p>
           ) : (
             ""
           )}
+        </div>
+        <Link to="/" className="logo">
+          <h1>Share Space</h1>
+          <p className="subtitle">- Share the best of you -</p>
         </Link>
         <nav>
           <>

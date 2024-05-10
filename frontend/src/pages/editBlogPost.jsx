@@ -63,24 +63,20 @@ function EditBlogPost() {
 
   return (
     <>
-      <h1>Edit Blog Post {postId}</h1>
-      
-      <form onSubmit={handleEditPost}>
+      <h1>Edit Blog Post</h1>
+
+      <form className="edit-form" onSubmit={handleEditPost}>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Title"
         />
-        <Editor
-          value={content}
-          onChange={(value) => setContent(value)}
-        />
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-        <button type="submit">Update Post</button>
+        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+        <Editor value={content} onChange={(value) => setContent(value)} />
+        <div className='submit-edit-btn'>
+          <button type="submit">Update Post</button>
+        </div>
       </form>
     </>
   );

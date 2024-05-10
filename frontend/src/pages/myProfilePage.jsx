@@ -1,11 +1,11 @@
-//Path: frontend/src/pages/profilePage.jsx
+//Path: frontend/src/pages/myprofilePage.jsx
 
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../components/AuthProvider'
 import { GET_REQUEST } from '../utils/requestHelpers'
 import { DeleteButton, EditButton } from '../components/Buttons'
 
-function ProfilePage() {
+function myProfilePage() {
   const [posts, setPosts] = useState()
   const { currentUser } = useAuth()
 
@@ -71,4 +71,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage
+export default myProfilePage

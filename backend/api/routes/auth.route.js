@@ -5,6 +5,7 @@ import {
   loginUser,
   userRegister,
   getUser,
+  getUserByUsername,
   updateUser,
   deleteUser,
 } from "../controllers/auth.controller.js";
@@ -25,6 +26,7 @@ router.post("/register", userRegister);
 router.post("/login", loginUser);
 
 router.get("/user", getUser);
+router.get("/user/:userName", getUserByUsername);
 
 router.put("/updateUser/:id", updateUser);
 
