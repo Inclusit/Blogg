@@ -8,7 +8,7 @@ import {
 import { set } from "mongoose";
 
 function CommentField({ blogPostId, AuthorId, AuthorName }) {
-  const { currentUser } = useAuth();
+  const { currentUser, isLoggedIn } = useAuth();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -70,21 +70,27 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
 
   return (
     <>
-      <p>You are commenting as {currentUser.userName}</p>
-      <form onSubmit={handleComment}>
-        <textarea
-          className="comment-field"
-          name="comment"
-          id="comment"
-          value={newComment || ""}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder={"Place your comment here..."}
-          style={{ height: "100px", width: "100%" }}
-        ></textarea>
-        <div className="submit-comment-btn">
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      {!isLoggedIn ? (
+        <p>You need to be logged in to comment!</p>
+      ) : (
+        <>
+          <p>You are commenting as {currentUser.userName}</p>
+          <form onSubmit={handleComment}>
+            <textarea
+              className="comment-field"
+              name="comment"
+              id="comment"
+              value={newComment || ""}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder={"Place your comment here..."}
+              style={{ height: "100px", width: "100%" }}
+            ></textarea>
+            <div className="submit-comment-btn">
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+        </>
+      )}
 
       {loading && <p>Loading comments...</p>}
 
@@ -99,7 +105,10 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
               <div className="comment-info">
                 <p>
                   <span className="comment-user" style={{ fontSize: "small" }}>
-                    Comment by {comment.user?.userName ? comment.user.userName : "Anonymous"}
+                    Comment by{" "}
+                    {comment.user?.userName
+                      ? comment.user.userName
+                      : "Anonymous"}
                   </span>
                 </p>
                 <div className="comment-content">
@@ -107,29 +116,30 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
                 </div>
               </div>
 
-              {(currentUser.admin ||
-                currentUser._id === comment.user._id ||
-                currentUser._id === AuthorId) && (
-                <div className="comment-button-container">
-                  <button
-                    className="delete-comment-btn"
-                    onClick={() => handleDeleteComment(comment._id)}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      class="w-5 h-5"
+              {currentUser &&
+                (currentUser.admin ||
+                  currentUser._id === comment.user._id ||
+                  currentUser._id === AuthorId) && (
+                  <div className="comment-button-container">
+                    <button
+                      className="delete-comment-btn"
+                      onClick={() => handleDeleteComment(comment._id)}
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              )}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        class="w-5 h-5"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                )}
             </div>
           ))
       )}

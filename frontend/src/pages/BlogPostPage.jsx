@@ -95,13 +95,11 @@ function BlogPostPage() {
 
         <p dangerouslySetInnerHTML={{ __html: post.content }}></p>
       </div>
-      {/* CommentField ska bara vara synligt om man är inloggad */}
-      
-      {currentUser && <CommentField
+      <CommentField
         blogPostId={post._id}
         AuthorId={post.author._id}
         AuthorName={post.author.userName}
-      /> }
+      />
     </>
   );
 }
