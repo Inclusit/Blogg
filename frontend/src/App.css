@@ -221,12 +221,49 @@ form.register h1 {
   display: flex;
   flex-direction: row;
   gap: 10px;
-  margin-top: 50px;
-  border-style: double;
+  margin-top: 25px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+  padding: 10px;
   border-color: #333;
 }
+
+.comment-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+ 
+
+}
+
+.comment-info {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment-user {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0;
+  border-bottom: #333;
+  border-style:dotted;
+  border-width: 1px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.comment-content {
+  display:inherit;
+  justify-content: center;
+}
+
 .delete-comment-btn {
   width: 20px;
+   background-color: none !important;
+
 }
 
 /* POST STYLING */
@@ -257,12 +294,15 @@ svg:hover {
 .post-header {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   flex-direction: row;
   border-style: double;
   border-left: none;
   border-right: none;
   border-color:#555;
+  padding: 10px 0;
+  text-align: center;
 }
 
 .post-header-details {
@@ -272,6 +312,9 @@ svg:hover {
   align-items: center;
   margin: 0 auto;
   padding-top: 20px;
+  width: 100%;
+  max-width: 630px;
+  margin: 0 auto;
 }
 
 .post-container {
@@ -298,8 +341,11 @@ svg:hover {
   margin: auto;
 }
 
+
+
 .post {
   border-style: double;
+  border-radius: 3px;
 }
 
 .post a:hover {

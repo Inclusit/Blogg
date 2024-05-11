@@ -14,7 +14,7 @@ export default function Post({ title, content, image, createdAt, author, id, cur
         {<img src={image} alt="Post image" />}
       </div>
       <div className="texts">
-        <h2>{title || "Entry Title"}</h2>
+        <h2>{title.slice(0,30) || "Entry Title"}...</h2>
 
         <p className="info">
           <span className="author">
@@ -33,19 +33,13 @@ export default function Post({ title, content, image, createdAt, author, id, cur
         ) : (
           <p>Content snippet</p>
         )}
-
-        {isLoggedIn ? (
+        
           <Link
             to={`${window.location.origin}/api/post/post/${id}`}
-            className="read-more"
-          >
+            className="read-more">
             Read more...
           </Link>
-        ) : (
-          <Link to="/login" className="read-more">
-            Log in to read more
-          </Link>
-        )}
+        
       </div>
     </div>
   );

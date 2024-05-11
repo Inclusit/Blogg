@@ -1,7 +1,11 @@
-import React, {useState, useEffect} from 'react'
-import { useAuth } from './AuthProvider'
-import { POST_REQUEST, DELETE_REQUEST, GET_REQUEST} from '../utils/requestHelpers'
-import { set } from 'mongoose'
+import React, { useState, useEffect } from "react";
+import { useAuth } from "./AuthProvider";
+import {
+  POST_REQUEST,
+  DELETE_REQUEST,
+  GET_REQUEST,
+} from "../utils/requestHelpers";
+import { set } from "mongoose";
 
 function CommentField({ blogPostId, AuthorId, AuthorName }) {
   const { currentUser } = useAuth();
@@ -10,17 +14,11 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("AccessToken");
 
-  console.log("Current user commenting:", currentUser);
-  console.log("Blog post author:", AuthorId);
-  console.log("Blog post author name:", AuthorName);
-  console.log("token:", token);
-
   useEffect(() => {
     const fetchComments = async () => {
       try {
         setLoading(true);
         const response = await GET_REQUEST(`/api/comment/blog/${blogPostId}`);
-        console.log("Comments:", response);
         setComments(response);
       } catch (error) {
         console.error("Error fetching comments:", error.message);
@@ -33,8 +31,6 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
 
   const handleComment = async (e) => {
     e.preventDefault();
-    console.log("Comment:", comments);
-    console.log("user above field:", currentUser);
 
     try {
       const response = await POST_REQUEST("/api/comment/create", {
@@ -42,8 +38,6 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
         content: newComment,
         blogPost: blogPostId,
       });
-
-      console.log("current user in comment field", currentUser);
 
       console.log("Comment created:", response);
       setComments([...comments, response.comment]);
@@ -92,7 +86,6 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
         </div>
       </form>
 
-      {console.log("Comments:", comments)}
       {loading && <p>Loading comments...</p>}
 
       {loading ? (
@@ -103,16 +96,21 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
           .filter((comment) => comment && comment.content)
           .map((comment) => (
             <div key={comment._id} className="comment-container">
-              <p>{comment.content}</p>
-              <p>
-                <span style={{ fontSize: "small" }}>
-                  Comment by {comment.user?.userName}
-                </span>
-              </p>
+              <div className="comment-info">
+                <p>
+                  <span className="comment-user" style={{ fontSize: "small" }}>
+                    Comment by {comment.user?.userName ? comment.user.userName : "Anonymous"}
+                  </span>
+                </p>
+                <div className="comment-content">
+                  <p>{comment.content}</p>
+                </div>
+              </div>
+
               {(currentUser.admin ||
                 currentUser._id === comment.user._id ||
                 currentUser._id === AuthorId) && (
-                <div className="button-container">
+                <div className="comment-button-container">
                   <button
                     className="delete-comment-btn"
                     onClick={() => handleDeleteComment(comment._id)}
@@ -139,4 +137,4 @@ function CommentField({ blogPostId, AuthorId, AuthorName }) {
   );
 }
 
-export default CommentField
+export default CommentField;

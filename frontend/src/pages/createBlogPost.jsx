@@ -44,7 +44,7 @@ const CreateBlogPost = () => {
       }
 
       if (image.size > 1024 * 1024) {
-        alert("Image size is too large");
+        alert("Image size is too large, please pick an image with a size less than 1MB.");
         return;
       }
 

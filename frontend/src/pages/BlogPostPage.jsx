@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { GET_REQUEST } from "../utils/requestHelpers";
 import { DeleteButton, EditButton } from "../components/Buttons";
@@ -35,8 +35,10 @@ function BlogPostPage() {
     return <h2>Post not found</h2>;
   }
 
-  const isAuthorOrAdmin =
-    currentUser && (currentUser.admin || currentUser._id === post.author._id);
+  const isAdmin = currentUser && currentUser.admin;
+
+  const isAuthor = currentUser && currentUser._id === post.author._id;
+  console.log("isAuthor:", isAuthor);
 
   return (
     <>
@@ -46,12 +48,18 @@ function BlogPostPage() {
             <h2>{post.title}</h2>
             <p>
               <span style={{ fontSize: "small" }}>
-                Written by {post.author.userName}
+                Written by{" "}
+                <Link
+                  to={`/api/auth/user/${post.author.userName}`}
+                  className="author-link"
+                >
+                  {post.author.userName}
+                </Link>
               </span>
             </p>
           </div>
           <div>
-            {isAuthorOrAdmin && (
+            {isAuthor && (
               <div className="button-container">
                 <div>
                   <EditButton postId={post._id} />
@@ -59,8 +67,20 @@ function BlogPostPage() {
                 <div>
                   <DeleteButton
                     createdBy={post.author._id}
-                    currentUserId={currentUser ? currentUser._id : null}
-                    isAdmin={currentUser ? currentUser.admin : false}
+                    currentUserId={currentUser._id}
+                    isAdmin={isAdmin}
+                    postId={post._id}
+                  />
+                </div>
+              </div>
+            )}
+            {isAdmin && (
+              <div className="button-container">
+                <div>
+                  <DeleteButton
+                    createdBy={post.author._id}
+                    currentUserId={currentUser._id}
+                    isAdmin={isAdmin}
                     postId={post._id}
                   />
                 </div>
@@ -75,11 +95,13 @@ function BlogPostPage() {
 
         <p dangerouslySetInnerHTML={{ __html: post.content }}></p>
       </div>
-      <CommentField
+      {/* CommentField ska bara vara synligt om man är inloggad */}
+      
+      {currentUser && <CommentField
         blogPostId={post._id}
         AuthorId={post.author._id}
         AuthorName={post.author.userName}
-      />
+      /> }
     </>
   );
 }

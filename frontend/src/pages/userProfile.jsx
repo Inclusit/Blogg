@@ -21,6 +21,7 @@ export default function UserProfile() {
 
     const fetchPosts = async () => {
       const posts = await GET_REQUEST(`/api/post/blog/${userName}`);
+      posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setLoading(false);
       setPosts(posts);
     };

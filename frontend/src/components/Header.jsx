@@ -5,13 +5,7 @@ import { useAuth } from "./AuthProvider";
 const Header = () => {
   const { isLoggedIn, logout, currentUser } = useAuth();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!currentUser) {
-      setLoading(true);
-    }
-  }, [currentUser]);
 
   const handleLogout = () => {
     logout();
