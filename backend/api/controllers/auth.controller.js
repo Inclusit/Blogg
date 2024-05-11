@@ -26,14 +26,17 @@ export async function userRegister(req, res) {
 
 export async function loginUser(req, res) {
   console.log("test login", req.body)
+  
   try {
-    const { userName, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ userName }).select("+password");
+    const user = await User.findOne({ email }).select("+password");
+
 
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
+
 
     const passwordIsTheSame = await bcrypt.compare(password, user.password);
 

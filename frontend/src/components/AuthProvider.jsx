@@ -25,11 +25,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
   
 
-  const login = async (userName, password) => {
+  const login = async (email, password) => {
     try {
       const response = await POST_REQUEST("/api/auth/login", {
-        userName,
-        password,
+        email,
+        password
       });
 
       const { user, token } = response.data;

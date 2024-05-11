@@ -5,6 +5,7 @@ import { POST_REQUEST } from "../utils/requestHelpers";
 export default function RegisterPage() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -13,6 +14,7 @@ export default function RegisterPage() {
       const response = await POST_REQUEST("/api/auth/register", {
         userName,
         password,
+        email,
       });
 
       console.log("Response from server:", response.data);
@@ -25,6 +27,13 @@ export default function RegisterPage() {
   return (
     <form className="register" onSubmit={handleSubmit}>
       <h1>Register</h1>
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <input
         type="text"
         name="userName"

@@ -7,7 +7,7 @@ import { POST_REQUEST, GET_REQUEST } from "../utils/requestHelpers";
 import { useAuth } from "../components/AuthProvider";
 
 export default function LoginPage() {
-  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isLoggedIn, login } = useAuth();
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function LoginPage() {
     event.preventDefault();
 
     try {
-      const success = await login(userName, password);
+      const success = await login(email, password);
       if (success) {
         navigate("/");
       }
@@ -34,11 +34,11 @@ export default function LoginPage() {
       <form className="login" onSubmit={handleLogin}>
         <h1>Login</h1>
         <input
-          type="text"
-          name="userName"
-          placeholder="Username"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
